@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Custom GD Demon List</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #121212; color: #fff; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { text-align: center; color: #ff4757; }
+        .level-card { background: #1e1e1e; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #ff4757; }
+        .rank { font-size: 24px; font-weight: bold; color: #ffa502; }
+        .meta { color: #aaa; margin: 5px 0; }
+        iframe { width: 100%; height: 250px; border: none; margin-top: 10px; border-radius: 5px; }
+        .victor-list { margin-top: 15px; background: #2f3542; padding: 10px; border-radius: 5px; }
+        .victor-list h4 { margin: 0 0 5px 0; color: #2ed573; }
+        a { color: #1e90ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <h1>Top Demon List</h1>
+    <div id="list-container"></div>
+
+    <!-- Load the data first, then generate the list -->
+    <script src="data.js"></script>
+    <script>
+        const container = document.getElementById('list-container');
+        
+        demonListData.forEach(level => {
+            // Generate the victors HTML text
+            let victorsHTML = '';
+            if(level.victors.length > 0) {
+                level.victors.forEach(v => {
+                    victorsHTML += `<li><a href="${v.video}" target="_blank">${v.name}</a></li>`;
+                });
+            } else {
+                victorsHTML = '<li>No victors yet!</li>';
+            }
+
+            // Create the layout for each level
+            container.innerHTML += `
+                <div class="level-card">
+                    <div class="rank">#${level.rank} - ${level.name}</div>
+                    <div class="meta"><strong>ID:</strong> ${level.id} | <strong>Creator:</strong> ${level.creator}</div>
+                    <div class="meta"><strong>Verifier:</strong> ${level.verifier}</div>
+                    <iframe src="${level.video}"></iframe>
+                    <div class="victor-list">
+                        <h4>Victors:</h4>
+                        <ul>${victorsHTML}</ul>
+                    </div>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
