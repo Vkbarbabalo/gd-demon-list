@@ -1,4 +1,4 @@
-// 1. DYNAMIC DEMON BASELINE DATA
+// 1. STARTER DATABASE STRUCTURE WITH SEPARATE MEDIA CHANNELS
 const defaultDemonListData = [
   { rank: 1, name: "Bloodbath", id: "10565740", creator: "Riot", verifier: "Vk_barbabalo", points: 100, minProgress: 50, progressPoints: 20, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
   { rank: 2, name: "Cataclysm", id: "3979721", creator: "Ggb0y", verifier: "Vk_barbabalo", points: 75, minProgress: 50, progressPoints: 15, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
@@ -6,7 +6,7 @@ const defaultDemonListData = [
   { rank: 4, name: "Oblivion", id: "114755656", creator: "Defentum", verifier: "Vk_barbabalo", points: 30, minProgress: 50, progressPoints: 5, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
   { rank: 5, name: "Nine circles", id: "4284013", creator: "Zobros", verifier: "Vk_barbabalo", points: 20, minProgress: 50, progressPoints: 2, video: "", thumbnail: "", victors: [{ name: "Swedishvic", video: "https://outplayed.tv" }], progressRecords: [] }
 ];
-// 2. STYLING OVERLAYS AND FLEXIBLE MEDIA SHELLS
+// 2. DESIGN FRAMEWORK WITH EXCLUSIVE IMAGE PREVIEWS
 const coreUIStructure = `
     <style>
         body { font-family: sans-serif; background: #0a0a0c; color: #e2e8f0; max-width: 800px; margin: 0 auto; padding: 20px; }
@@ -20,7 +20,8 @@ const coreUIStructure = `
         .rank-name { font-size: 22px; font-weight: bold; color: #fff; }
         .points-badge { background: rgba(0,210,255,0.1); color: #00d2ff; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 13px; }
         .meta { color: #94a3b8; font-size: 14px; margin: 5px 0; } .meta strong { color: #00d2ff; }
-        iframe { width: 100%; height: 350px; border: none; margin-top: 15px; border-radius: 6px; background: #000; }
+        .video-link-btn { display: inline-block; margin-top: 15px; margin-bottom: 5px; background: #1e293b; color: #00d2ff; padding: 10px 16px; border-radius: 6px; font-weight: bold; border: 1px solid rgba(0,210,255,0.2); text-decoration: none; }
+        .video-link-btn:hover { background: #00d2ff; color: #000; }
         .thumb-img { width: 100%; height: 350px; object-fit: cover; border-radius: 6px; margin-top: 15px; border: 1px solid #1e293b; }
         .victor-list { margin-top: 15px; background: #090a0f; padding: 12px; border-radius: 6px; border: 1px solid #1e293b; }
         a { color: #38bdf8; text-decoration: none; cursor: pointer; }
@@ -60,8 +61,8 @@ const coreUIStructure = `
             <div class="form-group"><label>Completions Points</label><input type="number" id="levelPoints"></div>
             <div class="form-group"><label>Min Progress % Required</label><input type="number" id="levelMinProg" value="50"></div>
             <div class="form-group"><label>Points awarded for Progress</label><input type="number" id="levelProgPoints" value="10"></div>
-            <div class="form-group"><label>YouTube Link</label><input type="text" id="levelVideo"></div>
-            <div class="form-group"><label>Thumbnail Image URL (If no video)</label><input type="text" id="levelThumb"></div>
+            <div class="form-group"><label>YouTube Link (Opened in new tab via button)</label><input type="text" id="levelVideo"></div>
+            <div class="form-group"><label>Thumbnail Image URL (Paste direct image link here)</label><input type="text" id="levelThumb"></div>
             <button class="btn-submit" id="btn-submit-level">Add Level to Website</button>
         </div>
         <div class="admin-form" style="border-color: #00d2ff;">
@@ -77,7 +78,7 @@ const coreUIStructure = `
             <div class="form-group"><label>Edit Progress Points Reward</label><input type="number" id="editProgressPoints"></div>
             <div class="form-group"><label>Edit YouTube Link</label><input type="text" id="editVideo"></div>
             <div class="form-group"><label>Edit Thumbnail Image URL</label><input type="text" id="editThumb"></div>
-            <div class="form-group"><label>Victors Config (Name,VideoLink | Name2,VideoLink2)</label><textarea id="editVictors"></textarea></div>
+            <div class="form-group"><label>Victors Config (Name,Link | Name2,Link2)</label><textarea id="editVictors"></textarea></div>
             <div class="form-group"><label>Progress Records Config (Name,Percentage,ProofLink | Name2,Percentage2,Proof2)</label><textarea id="editProgressRecords"></textarea></div>
             <button class="btn-submit" id="btn-save-edit" style="background:#00d2ff;">Save Changes to Level</button>
             <button id="btn-reset" style="background:transparent; color:#ff4757; border:none; margin-top:10px; cursor:pointer; width:100%;">⚠️ Reset Changes</button>
@@ -148,12 +149,15 @@ function renderWebsite() {
             });
         } else { progHTML = '<li>None</li>'; }
 
+        // Completely removed video iframes. Now only renders if a dedicated Image URL is provided.
         let mediaHTML = '';
-        if (level.video && level.video.trim() !== "") {
-            let finalUrl = level.video.replace("://youtube.com", "://youtube.com").replace("&t=", "?start=").replace("?t=", "?start=");
-            mediaHTML = `<iframe src="${finalUrl}" allowfullscreen></iframe>`;
-        } else if (level.thumbnail && level.thumbnail.trim() !== "") {
+        if (level.thumbnail && level.thumbnail.trim() !== "") {
             mediaHTML = `<img src="${level.thumbnail}" class="thumb-img" alt="level thumbnail">`;
+        }
+        
+        let watchVideoBtnHTML = '';
+        if (level.video && level.video.trim() !== "") {
+            watchVideoBtnHTML = `<br><a href="${level.video}" target="_blank" class="video-link-btn">▶ Watch Verification Proof</a>`;
         }
 
         listContainer.innerHTML += `
@@ -162,6 +166,7 @@ function renderWebsite() {
                 <div class="meta"><strong>ID:</strong> ${level.id} | <strong>Creator:</strong> ${level.creator}</div>
                 <div class="meta"><strong>Verifier:</strong> <a onclick="openProfile('${level.verifier}')">${level.verifier}</a></div>
                 ${mediaHTML}
+                ${watchVideoBtnHTML}
                 <div class="victor-list"><h4>Completions (100%):</h4><ul>${victorsHTML}</ul></div>
                 <div class="victor-list" style="border-color:#ffa502;"><h4>Progress (>=${level.minProgress || 50}%):</h4><ul>${progHTML}</ul></div>
                 <div class="card-actions">
@@ -222,12 +227,12 @@ function saveLevelEdits() {
     let victorsText = document.getElementById('editVictors').value;
     if(victorsText.trim() !== "") {
         victorsText.split('|').forEach(pair => {
-            let parts = pair.split(',');
-            if(parts && parts[0] && parts[0].trim() !== "") {
-                processedVictors.push({ 
-                    name: parts[0].trim(), 
-                    video: parts[1] ? parts[1].trim() : "" 
-                });
+            let itemStr = pair.trim();
+            if(itemStr !== "") {
+                let parts = itemStr.split(',');
+                let pName = parts[0] ? parts[0].trim() : "";
+                let pVid = parts[1] ? parts[1].trim() : "";
+                if(pName !== "") processedVictors.push({ name: pName, video: pVid });
             }
         });
     }
@@ -236,13 +241,13 @@ function saveLevelEdits() {
     let progText = document.getElementById('editProgressRecords').value;
     if(progText.trim() !== "") {
         progText.split('|').forEach(pair => {
-            let parts = pair.split(',');
-            if(parts && parts[0] && parts[0].trim() !== "") {
-                processedProg.push({ 
-                    name: parts[0].trim(), 
-                    percent: parts[1] ? Number(parts[1].trim()) : 50, 
-                    video: parts[2] ? parts[2].trim() : "" 
-                });
+            let itemStr = pair.trim();
+            if(itemStr !== "") {
+                let parts = itemStr.split(',');
+                let pName = parts[0] ? parts[0].trim() : "";
+                let pPct = parts[1] ? Number(parts[1].trim()) : 50;
+                let pVid = parts[2] ? parts[2].trim() : "";
+                if(pName !== "") processedProg.push({ name: pName, percent: pPct, video: pVid });
             }
         });
     }
