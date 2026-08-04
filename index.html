@@ -151,7 +151,7 @@
                 </tr>
             </thead>
             <tbody id="leaderboard-container">
-                <!-- Javascript will load rows here -->
+                <!-- Rows load here dynamically -->
             </tbody>
         </table>
     </div>
@@ -170,18 +170,25 @@
         const listContainer = document.getElementById('list-container');
         const leaderboardContainer = document.getElementById('leaderboard-container');
         
-        // Object to store calculated player scores automatically
         let playerScores = {};
 
         // 1. Process and Render Demons List
         demonListData.forEach(level => {
             let victorsHTML = '';
             
+            // Automatically add verifier to the leaderboard tracking object
+            if (level.verifier && level.verifier.trim() !== "") {
+                if (!playerScores[level.verifier]) {
+                    playerScores[level.verifier] = 0;
+                }
+                playerScores[level.verifier] += level.points;
+            }
+
             if(level.victors && level.victors.length > 0) {
                 level.victors.forEach(v => {
                     victorsHTML += `<li><a href="${v.video}" target="_blank">${v.name}</a></li>`;
                     
-                    // Add points to this player's total calculation
+                    // Add points to standard victors
                     if (!playerScores[v.name]) {
                         playerScores[v.name] = 0;
                     }
@@ -191,7 +198,6 @@
                 victorsHTML = '<li style="color:#64748b; list-style:none;">No victors yet!</li>';
             }
 
-            // Only generate video iframe if a valid URL is provided
             let videoHTML = '';
             if (level.video && level.video !== "" && level.video !== "-") {
                 videoHTML = `<iframe src="${level.video}" allowfullscreen></iframe>`;
@@ -214,7 +220,7 @@
             `;
         });
 
-        // 2. Process and Render Leaderboard (Ranked highest points to lowest)
+        // 2. Process and Render Leaderboard
         let sortedPlayers = Object.keys(playerScores).map(name => {
             return { name: name, points: playerScores[name] };
         });
