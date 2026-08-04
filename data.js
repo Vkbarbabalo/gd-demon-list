@@ -5,9 +5,8 @@ const demonListData = [
     id: "10565740",
     creator: "Riot",
     verifier: "Vk_barbabalo",
-    video: "https://www.youtube.com/watch?v=Uy92UvhyNl0", // Replace with actual YouTube embed link
-    victors: [
-    ]
+    video: "https://youtube.com", 
+    victors: []
   },
   {
     rank: 2,
@@ -15,9 +14,8 @@ const demonListData = [
     id: "3979721",
     creator: "Ggb0y",
     verifier: "Vk_barbabalo",
-    video: "https://www.youtube.com/watch?v=dXs_UjKpQUQ",
-    victors: [
-    ]
+    video: "https://youtube.com",
+    victors: []
   },
   {
     rank: 3,
@@ -25,7 +23,7 @@ const demonListData = [
     id: "5155022",
     creator: "Zobros",
     verifier: "Vk_barbabalo",
-    video: "-", // Replace with actual YouTube embed link
+    video: "https://youtube.com", // Use a placeholder video if you don't have one, '-' breaks the page
     victors: [
       { name: "Swedishvic", video: "https://www.youtube.com/watch?v=fVBmzkqykKE" }
     ]
@@ -36,10 +34,9 @@ const demonListData = [
     id: "4284013",
     creator: "Zobros",
     verifier: "Vk_barbabalo",
-    video: "-",
+    video: "https://youtube.com", // Use a placeholder video instead of '-'
     victors: [
       { name: "Swedishvic", video: "https://outplayed.tv/geometry-dash/K4jm60" }
     ]
   }
 ];
-
