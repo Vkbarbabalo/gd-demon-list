@@ -1,4 +1,4 @@
-// 1. STARTER DATABASE STRUCTURE WITH PROGRESS TRACKING
+// 1. STARTER DATABASE STRUCTURE WITH PROGRESS & THUMBNAILS
 const defaultDemonListData = [
   { rank: 1, name: "Bloodbath", id: "10565740", creator: "Riot", verifier: "Vk_barbabalo", points: 100, minProgress: 50, progressPoints: 20, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
   { rank: 2, name: "Cataclysm", id: "3979721", creator: "Ggb0y", verifier: "Vk_barbabalo", points: 75, minProgress: 50, progressPoints: 15, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
@@ -6,7 +6,7 @@ const defaultDemonListData = [
   { rank: 4, name: "Oblivion", id: "114755656", creator: "Defentum", verifier: "Vk_barbabalo", points: 30, minProgress: 50, progressPoints: 5, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
   { rank: 5, name: "Nine circles", id: "4284013", creator: "Zobros", verifier: "Vk_barbabalo", points: 20, minProgress: 50, progressPoints: 2, video: "", thumbnail: "", victors: [{ name: "Swedishvic", video: "https://outplayed.tv" }], progressRecords: [] }
 ];
-// 2. DESIGN LAYOUT STYLE SPECIFICATIONS
+// 2. DESIGN FRAMEWORK HOOKS WITH MODAL POPUPS
 const coreUIStructure = `
     <style>
         body { font-family: sans-serif; background: #0a0a0c; color: #e2e8f0; max-width: 800px; margin: 0 auto; padding: 20px; }
@@ -146,7 +146,7 @@ function renderWebsite() {
                 playersDatabase[pName].points += Number(level.progressPoints || 0);
                 playersDatabase[pName].progress.push({ levelName: level.name, percent: p.percent, video: p.video });
             });
-        } else { progHTML = '<li style="color:#64748b; list-style:none;">None</li>'; }
+        } else { progHTML = '<li>None</li>'; }
 
         let mediaHTML = '';
         if (level.video && level.video.trim() !== "") {
@@ -223,7 +223,12 @@ function saveLevelEdits() {
     if(victorsText.trim() !== "") {
         victorsText.split('|').forEach(pair => {
             const parts = pair.split(',');
-            if(parts.length >= 1) processedVictors.push({ name: parts.trim(), video: parts ? parts.trim() : "" });
+            if(parts.length >= 1 && parts[0].trim() !== "") {
+                processedVictors.push({ 
+                    name: parts[0].trim(), 
+                    video: parts[1] ? parts[1].trim() : "" 
+                });
+            }
         });
     }
 
@@ -232,7 +237,13 @@ function saveLevelEdits() {
     if(progText.trim() !== "") {
         progText.split('|').forEach(pair => {
             const parts = pair.split(',');
-            if(parts.length >= 2) processedProg.push({ name: parts.trim(), percent: Number(parts.trim()), video: parts ? parts.trim() : "" });
+            if(parts.length >= 2 && parts[0].trim() !== "") {
+                processedProg.push({ 
+                    name: parts[0].trim(), 
+                    percent: Number(parts[1].trim()) || 50, 
+                    video: parts[2] ? parts[2].trim() : "" 
+                });
+            }
         });
     }
 
@@ -258,7 +269,7 @@ window.openProfile = function(name) {
     let verHTML = ''; player.verifications.forEach(v => { verHTML += `<li>${v.levelName} ${v.video ? `(<a href="${v.video}" target="_blank">Link</a>)` : ''}</li>`; });
     document.getElementById('profVerifications').innerHTML = verHTML || '<li>None</li>';
     
-    let compHTML = ''; player.completions.forEach(c => { compHTML += `<li>${c.levelName} (<a href="${c.video}" target="_blank">Proof</a>)</li>`; });
+    let compHTML = ''; player.completions.forEach(c => { compHTML += `<li>${c.levelName} ${c.video ? `(<a href="${c.video}" target="_blank">Proof</a>)` : ''}</li>`; });
     document.getElementById('profCompletions').innerHTML = compHTML || '<li>None</li>';
     
     let prgHTML = ''; player.progress.forEach(p => { prgHTML += `<li>${p.levelName} - <strong>${p.percent}%</strong> ${p.video ? `(<a href="${p.video}" target="_blank">Proof</a>)` : ''}</li>`; });
