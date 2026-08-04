@@ -5,6 +5,7 @@ const demonListData = [
     id: "10565740",
     creator: "Riot",
     verifier: "Vk_barbabalo",
+    points: 100, // Points awarded for beating this level
     video: "https://youtube.com", 
     victors: []
   },
@@ -14,6 +15,7 @@ const demonListData = [
     id: "3979721",
     creator: "Ggb0y",
     verifier: "Vk_barbabalo",
+    points: 75,
     video: "https://youtube.com",
     victors: []
   },
@@ -23,9 +25,10 @@ const demonListData = [
     id: "5155022",
     creator: "Zobros",
     verifier: "Vk_barbabalo",
-    video: "https://youtube.com", // Use a placeholder video if you don't have one, '-' breaks the page
+    points: 50,
+    video: "", // Left empty so it hides automatically!
     victors: [
-      { name: "Swedishvic", video: "https://www.youtube.com/watch?v=fVBmzkqykKE" }
+      { name: "Swedishvic", video: "https://youtube.com" }
     ]
   },
   {
@@ -34,9 +37,10 @@ const demonListData = [
     id: "4284013",
     creator: "Zobros",
     verifier: "Vk_barbabalo",
-    video: "https://youtube.com", // Use a placeholder video instead of '-'
+    points: 30,
+    video: "", 
     victors: [
-      { name: "Swedishvic", video: "https://outplayed.tv/geometry-dash/K4jm60" }
+      { name: "Swedishvic", video: "https://outplayed.tv" }
     ]
   }
 ];
