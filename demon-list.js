@@ -1,4 +1,4 @@
-// 1. STARTER DATABASE STRUCTURE WITH SEPARATE MEDIA CHANNELS
+// 1. STARTER DATABASE STRUCTURE WITH PROGRESS RECORD SHELLS
 const defaultDemonListData = [
   { rank: 1, name: "Bloodbath", id: "10565740", creator: "Riot", verifier: "Vk_barbabalo", points: 100, minProgress: 50, progressPoints: 20, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
   { rank: 2, name: "Cataclysm", id: "3979721", creator: "Ggb0y", verifier: "Vk_barbabalo", points: 75, minProgress: 50, progressPoints: 15, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
@@ -6,7 +6,7 @@ const defaultDemonListData = [
   { rank: 4, name: "Oblivion", id: "114755656", creator: "Defentum", verifier: "Vk_barbabalo", points: 30, minProgress: 50, progressPoints: 5, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
   { rank: 5, name: "Nine circles", id: "4284013", creator: "Zobros", verifier: "Vk_barbabalo", points: 20, minProgress: 50, progressPoints: 2, video: "", thumbnail: "", victors: [{ name: "Swedishvic", video: "https://outplayed.tv" }], progressRecords: [] }
 ];
-// 2. DESIGN FRAMEWORK WITH EXCLUSIVE IMAGE PREVIEWS
+// 2. DESIGN FRAMEWORK WITH EXPLICIT ACCORDION HIDDEN CONTENT
 const coreUIStructure = `
     <style>
         body { font-family: sans-serif; background: #0a0a0c; color: #e2e8f0; max-width: 800px; margin: 0 auto; padding: 20px; }
@@ -15,23 +15,32 @@ const coreUIStructure = `
         .tab-btn { background: #111318; color: #8a99ad; border: 1px solid #1e293b; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; }
         .tab-btn.active { background: #00d2ff; color: #000; border-color: #00d2ff; }
         .content-section { display: none; } .content-section.active { display: block; }
-        .level-card { background: #12141c; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #1e293b; border-left: 5px solid #00d2ff; position: relative; }
+        
+        /* Retained Original Large Cards Style */
+        .level-card { background: #12141c; border-radius: 8px; padding: 22px; margin-bottom: 25px; border: 1px solid #1e293b; border-left: 5px solid #00d2ff; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
         .level-header { display: flex; justify-content: space-between; align-items: center; }
-        .rank-name { font-size: 22px; font-weight: bold; color: #fff; }
-        .points-badge { background: rgba(0,210,255,0.1); color: #00d2ff; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 13px; }
-        .meta { color: #94a3b8; font-size: 14px; margin: 5px 0; } .meta strong { color: #00d2ff; }
+        .rank-name { font-size: 24px; font-weight: bold; color: #fff; cursor: pointer; transition: color 0.2s; }
+        .rank-name:hover { color: #00d2ff; text-decoration: underline; }
+        .points-badge { background: rgba(0,210,255,0.1); color: #00d2ff; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 14px; border: 1px solid rgba(0,210,255,0.3); }
+        .meta { color: #94a3b8; font-size: 14px; margin: 6px 0; } .meta strong { color: #00d2ff; }
         .video-link-btn { display: inline-block; margin-top: 15px; margin-bottom: 5px; background: #1e293b; color: #00d2ff; padding: 10px 16px; border-radius: 6px; font-weight: bold; border: 1px solid rgba(0,210,255,0.2); text-decoration: none; }
         .video-link-btn:hover { background: #00d2ff; color: #000; }
         .thumb-img { width: 100%; height: 350px; object-fit: cover; border-radius: 6px; margin-top: 15px; border: 1px solid #1e293b; }
-        .victor-list { margin-top: 15px; background: #090a0f; padding: 12px; border-radius: 6px; border: 1px solid #1e293b; }
+        
+        /* Hidden Expandable Player Records Boxes Only */
+        .records-accordion { display: none; margin-top: 15px; border-top: 1px solid #1e293b; padding-top: 10px; }
+        .victor-list { margin-top: 18px; background: #090a0f; padding: 15px; border-radius: 6px; border: 1px solid #1e293b; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); }
+        .victor-list h4 { margin: 0 0 10px 0; color: #00d2ff; font-size: 15px; }
+        .victor-list ul { margin: 0; padding-left: 20px; } .victor-list li { margin-bottom: 6px; }
+        
         a { color: #38bdf8; text-decoration: none; cursor: pointer; }
-        .leaderboard-table { width: 100%; border-collapse: collapse; background: #12141c; border-radius: 8px; overflow: hidden; }
-        .leaderboard-table th { background: #1e293b; color: #00d2ff; padding: 12px; text-align: left; }
-        .leaderboard-table td { padding: 12px; border-bottom: 1px solid #1e293b; }
-        .admin-form { background: #12141c; padding: 20px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
+        .leaderboard-table { width: 100%; border-collapse: collapse; background: #12141c; border-radius: 8px; overflow: hidden; border: 1px solid #1e293b; }
+        .leaderboard-table th { background: #1e293b; color: #00d2ff; padding: 15px; text-align: left; }
+        .leaderboard-table td { padding: 15px; border-bottom: 1px solid #1e293b; }
+        .admin-form { background: #12141c; padding: 25px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; }
         .form-group { margin-bottom: 12px; } .form-group label { display: block; margin-bottom: 4px; color: #00d2ff; font-weight: bold; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px; background: #090a0f; border: 1px solid #1e293b; border-radius: 5px; color: #fff; box-sizing: border-box; }
-        .btn-submit { background: #00d2ff; color: #000; border: none; padding: 10px 15px; font-weight: bold; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; background: #090a0f; border: 1px solid #1e293b; border-radius: 5px; color: #fff; box-sizing: border-box; }
+        .btn-submit { background: #00d2ff; color: #000; border: none; padding: 12px 20px; font-weight: bold; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
         .card-actions { margin-top: 15px; display: flex; gap: 10px; }
         .action-btn { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; }
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; }
@@ -61,8 +70,8 @@ const coreUIStructure = `
             <div class="form-group"><label>Completions Points</label><input type="number" id="levelPoints"></div>
             <div class="form-group"><label>Min Progress % Required</label><input type="number" id="levelMinProg" value="50"></div>
             <div class="form-group"><label>Points awarded for Progress</label><input type="number" id="levelProgPoints" value="10"></div>
-            <div class="form-group"><label>YouTube Link (Opened in new tab via button)</label><input type="text" id="levelVideo"></div>
-            <div class="form-group"><label>Thumbnail Image URL (Paste direct image link here)</label><input type="text" id="levelThumb"></div>
+            <div class="form-group"><label>YouTube Link</label><input type="text" id="levelVideo"></div>
+            <div class="form-group"><label>Thumbnail Image URL</label><input type="text" id="levelThumb"></div>
             <button class="btn-submit" id="btn-submit-level">Add Level to Website</button>
         </div>
         <div class="admin-form" style="border-color: #00d2ff;">
@@ -78,7 +87,7 @@ const coreUIStructure = `
             <div class="form-group"><label>Edit Progress Points Reward</label><input type="number" id="editProgressPoints"></div>
             <div class="form-group"><label>Edit YouTube Link</label><input type="text" id="editVideo"></div>
             <div class="form-group"><label>Edit Thumbnail Image URL</label><input type="text" id="editThumb"></div>
-            <div class="form-group"><label>Victors Config (Name,Link | Name2,Link2)</label><textarea id="editVictors"></textarea></div>
+            <div class="form-group"><label>Victors Config (Name,VideoLink | Name2,VideoLink2)</label><textarea id="editVictors"></textarea></div>
             <div class="form-group"><label>Progress Records Config (Name,Percentage,ProofLink | Name2,Percentage2,Proof2)</label><textarea id="editProgressRecords"></textarea></div>
             <button class="btn-submit" id="btn-save-edit" style="background:#00d2ff;">Save Changes to Level</button>
             <button id="btn-reset" style="background:transparent; color:#ff4757; border:none; margin-top:10px; cursor:pointer; width:100%;">⚠️ Reset Changes</button>
@@ -109,6 +118,16 @@ function switchTab(sectionId, btnElement) {
     if(sectionId === 'admin-section') populateAdminDropdown();
     if(sectionId !== 'admin-section') renderWebsite();
 }
+
+// Controls only the hidden accordion data without altering layout elements
+window.toggleLevelRecords = function(levelId) {
+    let targetBox = document.getElementById('records-box-' + levelId);
+    if(targetBox.style.display === 'block') {
+        targetBox.style.display = 'none';
+    } else {
+        targetBox.style.display = 'block';
+    }
+};
 
 function renderWebsite() {
     const listContainer = document.getElementById('list-container');
@@ -149,7 +168,6 @@ function renderWebsite() {
             });
         } else { progHTML = '<li>None</li>'; }
 
-        // Completely removed video iframes. Now only renders if a dedicated Image URL is provided.
         let mediaHTML = '';
         if (level.thumbnail && level.thumbnail.trim() !== "") {
             mediaHTML = `<img src="${level.thumbnail}" class="thumb-img" alt="level thumbnail">`;
@@ -157,18 +175,27 @@ function renderWebsite() {
         
         let watchVideoBtnHTML = '';
         if (level.video && level.video.trim() !== "") {
-            watchVideoBtnHTML = `<br><a href="${level.video}" target="_blank" class="video-link-btn">▶ Watch Verification Proof</a>`;
+            watchVideoBtnHTML = `<a href="${level.video}" target="_blank" class="video-link-btn">▶ Watch Verification Proof</a>`;
         }
 
         listContainer.innerHTML += `
             <div class="level-card">
-                <div class="level-header"><div class="rank-name">#${level.rank} - ${level.name}</div><div class="points-badge">+${level.points} pts (>${level.minProgress || 50}% = +${level.progressPoints || 0} pts)</div></div>
+                <div class="level-header">
+                    <div class="rank-name" onclick="toggleLevelRecords(${level.id})">#${level.rank} - ${level.name}</div>
+                    <div class="points-badge">+${level.points} pts</div>
+                </div>
                 <div class="meta"><strong>ID:</strong> ${level.id} | <strong>Creator:</strong> ${level.creator}</div>
                 <div class="meta"><strong>Verifier:</strong> <a onclick="openProfile('${level.verifier}')">${level.verifier}</a></div>
+                <p style="color:#00d2ff; font-size:13px; margin:6px 0 0 0;">💡 Click level name to check victors and progress list</p>
                 ${mediaHTML}
                 ${watchVideoBtnHTML}
-                <div class="victor-list"><h4>Completions (100%):</h4><ul>${victorsHTML}</ul></div>
-                <div class="victor-list" style="border-color:#ffa502;"><h4>Progress (>=${level.minProgress || 50}%):</h4><ul>${progHTML}</ul></div>
+                
+                <!-- Target Area: Only hides the records lists while keeping card style huge -->
+                <div id="records-box-${level.id}" class="records-accordion">
+                    <div class="victor-list"><h4>Completions (100%):</h4><ul>${victorsHTML}</ul></div>
+                    <div class="victor-list" style="border-color:#ffa502;"><h4>Progress (>=${level.minProgress || 50}% = +${level.progressPoints || 0} pts):</h4><ul>${progHTML}</ul></div>
+                </div>
+                
                 <div class="card-actions">
                     <button class="action-btn" onclick="movePlacement(${level.id}, -1)">▲ Up</button>
                     <button class="action-btn" onclick="movePlacement(${level.id}, 1)">▼ Down</button>
@@ -230,8 +257,8 @@ function saveLevelEdits() {
             let itemStr = pair.trim();
             if(itemStr !== "") {
                 let parts = itemStr.split(',');
-                let pName = parts[0] ? parts[0].trim() : "";
-                let pVid = parts[1] ? parts[1].trim() : "";
+                let pName = parts ? parts.trim() : "";
+                let pVid = parts ? parts.trim() : "";
                 if(pName !== "") processedVictors.push({ name: pName, video: pVid });
             }
         });
@@ -244,9 +271,9 @@ function saveLevelEdits() {
             let itemStr = pair.trim();
             if(itemStr !== "") {
                 let parts = itemStr.split(',');
-                let pName = parts[0] ? parts[0].trim() : "";
-                let pPct = parts[1] ? Number(parts[1].trim()) : 50;
-                let pVid = parts[2] ? parts[2].trim() : "";
+                let pName = parts ? parts.trim() : "";
+                let pPct = parts ? Number(parts.trim()) : 50;
+                let pVid = parts ? parts.trim() : "";
                 if(pName !== "") processedProg.push({ name: pName, percent: pPct, video: pVid });
             }
         });
@@ -257,7 +284,7 @@ function saveLevelEdits() {
         name: document.getElementById('editName').value, id: document.getElementById('editId').value,
         creator: document.getElementById('editCreator').value, verifier: document.getElementById('editVerifier').value,
         points: Number(document.getElementById('editPoints').value) || 0,
-        minProgress: Number(document.getElementById('editMinProgress').value) || 50,
+        minProgress: Number(document.getElementById('editMiddleProgress') ? document.getElementById('editMiddleProgress').value : document.getElementById('editMinProgress').value) || 50,
         progressPoints: Number(document.getElementById('editProgressPoints').value) || 0,
         video: document.getElementById('editVideo').value, thumbnail: document.getElementById('editThumb').value,
         victors: processedVictors, progressRecords: processedProg
