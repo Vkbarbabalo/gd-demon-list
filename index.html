@@ -3,47 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Custom GD Demon List</title>
+    <title>GD Demon List & Leaderboard</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #121212; color: #fff; max-width: 800px; margin: 0 auto; padding: 20px; }
-        h1 { text-align: center; color: #ff4757; }
-        .level-card { background: #1e1e1e; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #ff4757; }
-        .rank { font-size: 24px; font-weight: bold; color: #ffa502; }
-        .meta { color: #aaa; margin: 5px 0; }
-        iframe { width: 100%; height: 250px; border: none; margin-top: 10px; border-radius: 5px; }
-        .victor-list { margin-top: 15px; background: #2f3542; padding: 10px; border-radius: 5px; }
-        .victor-list h4 { margin: 0 0 5px 0; color: #2ed573; }
-        a { color: #1e90ff; text-decoration: none; }
+        /* Black and Blue Theme Styling */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #0a0a0c; 
+            color: #e2e8f0; 
+            max-width: 850px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        h1 { 
+            text-align: center; 
+            color: #00d2ff; 
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+            margin-bottom: 30px;
+        }
+        
+        /* Navigation Tabs */
+        .tabs { 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+        .tab-btn { 
+            background: #111318; 
+            color: #8a99ad; 
+            border: 1px solid #1e293b; 
+            padding: 12px 24px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            transition: all 0.2s ease;
+        }
+        .tab-btn:hover { 
+            color: #00d2ff; 
+            border-color: #00d2ff; 
+        }
+        .tab-btn.active { 
+            background: #00d2ff; 
+            color: #000; 
+            border-color: #00d2ff; 
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+        }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+
+        /* Level Cards styling */
+        .level-card { 
+            background: #12141c; 
+            border-radius: 8px; 
+            padding: 22px; 
+            margin-bottom: 25px; 
+            border: 1px solid #1e293b;
+            border-left: 5px solid #00d2ff; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .rank-name { font-size: 24px; font-weight: bold; color: #fff; }
+        .points-badge { 
+            background: rgba(0, 210, 255, 0.1); 
+            color: #00d2ff; 
+            padding: 4px 10px; 
+            border-radius: 4px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            border: 1px solid rgba(0, 210, 255, 0.3);
+        }
+        .meta { color: #94a3b8; margin: 6px 0; font-size: 14px; }
+        .meta strong { color: #00d2ff; }
+        iframe { width: 100%; height: 300px; border: none; margin-top: 15px; border-radius: 6px; background: #000; }
+        
+        /* Victors Container */
+        .victor-list { 
+            margin-top: 18px; 
+            background: #090a0f; 
+            padding: 15px; 
+            border-radius: 6px; 
+            border: 1px solid #1e293b;
+        }
+        .victor-list h4 { margin: 0 0 10px 0; color: #00d2ff; font-size: 15px; }
+        .victor-list ul { margin: 0; padding-left: 20px; }
+        .victor-list li { margin-bottom: 6px; }
+        a { color: #38bdf8; text-decoration: none; transition: color 0.2s; }
+        a:hover { color: #00d2ff; text-decoration: underline; }
+
+        /* Leaderboard Table */
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #12141c;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #1e293b;
+        }
+        .leaderboard-table th {
+            background: #1e293b;
+            color: #00d2ff;
+            text-align: left;
+            padding: 15px;
+            font-weight: bold;
+        }
+        .leaderboard-table td {
+            padding: 15px;
+            border-bottom: 1px solid #1e293b;
+            color: #e2e8f0;
+        }
+        .leaderboard-table tr:hover { background: #161922; }
+        .lb-rank { font-weight: bold; color: #94a3b8; width: 80px; }
+        .lb-name { font-weight: bold; color: #fff; }
+        .lb-points { color: #00d2ff; font-weight: bold; text-align: right; }
+        .leaderboard-table th:last-child { text-align: right; }
     </style>
 </head>
 <body>
 
-    <h1>Top Demon List</h1>
-    <div id="list-container"></div>
+    <h1>GD Custom Demon List</h1>
 
-    <!-- Load the data first, then generate the list -->
+    <!-- Tabs Menu -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('demons-section', this)">Demons List</button>
+        <button class="tab-btn" onclick="switchTab('leaderboard-section', this)">Player Rankings</button>
+    </div>
+
+    <!-- Demons Section -->
+    <div id="demons-section" class="content-section active">
+        <div id="list-container"></div>
+    </div>
+
+    <!-- Leaderboard Section -->
+    <div id="leaderboard-section" class="content-section">
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player Name</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-container">
+                <!-- Javascript will load rows here -->
+            </tbody>
+        </table>
+    </div>
+
     <script src="data.js"></script>
     <script>
-        const container = document.getElementById('list-container');
+        // Tab switching logic
+        function switchTab(sectionId, btnElement) {
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(sectionId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        const listContainer = document.getElementById('list-container');
+        const leaderboardContainer = document.getElementById('leaderboard-container');
         
+        // Object to store calculated player scores automatically
+        let playerScores = {};
+
+        // 1. Process and Render Demons List
         demonListData.forEach(level => {
-            // Generate the victors HTML text
             let victorsHTML = '';
-            if(level.victors.length > 0) {
+            
+            if(level.victors && level.victors.length > 0) {
                 level.victors.forEach(v => {
                     victorsHTML += `<li><a href="${v.video}" target="_blank">${v.name}</a></li>`;
+                    
+                    // Add points to this player's total calculation
+                    if (!playerScores[v.name]) {
+                        playerScores[v.name] = 0;
+                    }
+                    playerScores[v.name] += level.points;
                 });
             } else {
-                victorsHTML = '<li>No victors yet!</li>';
+                victorsHTML = '<li style="color:#64748b; list-style:none;">No victors yet!</li>';
             }
 
-            // Create the layout for each level
-            container.innerHTML += `
+            // Only generate video iframe if a valid URL is provided
+            let videoHTML = '';
+            if (level.video && level.video !== "" && level.video !== "-") {
+                videoHTML = `<iframe src="${level.video}" allowfullscreen></iframe>`;
+            }
+
+            listContainer.innerHTML += `
                 <div class="level-card">
-                    <div class="rank">#${level.rank} - ${level.name}</div>
-                    <div class="meta"><strong>ID:</strong> ${level.id} | <strong>Creator:</strong> ${level.creator}</div>
+                    <div class="level-header">
+                        <div class="rank-name">#${level.rank} - ${level.name}</div>
+                        <div class="points-badge">+${level.points} Points</div>
+                    </div>
+                    <div class="meta"><strong>ID:</strong> ${level.id} &nbsp;|&nbsp; <strong>Creator:</strong> ${level.creator}</div>
                     <div class="meta"><strong>Verifier:</strong> ${level.verifier}</div>
-                    <iframe src="${level.video}"></iframe>
+                    ${videoHTML}
                     <div class="victor-list">
                         <h4>Victors:</h4>
                         <ul>${victorsHTML}</ul>
@@ -51,6 +213,27 @@
                 </div>
             `;
         });
+
+        // 2. Process and Render Leaderboard (Ranked highest points to lowest)
+        let sortedPlayers = Object.keys(playerScores).map(name => {
+            return { name: name, points: playerScores[name] };
+        });
+        
+        sortedPlayers.sort((a, b) => b.points - a.points);
+
+        if(sortedPlayers.length === 0) {
+            leaderboardContainer.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#64748b;">No player rankings available yet.</td></tr>`;
+        } else {
+            sortedPlayers.forEach((player, index) => {
+                leaderboardContainer.innerHTML += `
+                    <tr>
+                        <td class="lb-rank">#${index + 1}</td>
+                        <td class="lb-name">${player.name}</td>
+                        <td class="lb-points">${player.points} pts</td>
+                    </tr>
+                `;
+            });
+        }
     </script>
 </body>
 </html>
