@@ -41,7 +41,7 @@ const demonListData = [
     video: "https://www.youtube.com/watch?v=2F0VMXlWq4Y", 
     victors: []
   },
-
+  {
     rank: 5,
     name: "Nine circles",
     id: "4284013",
