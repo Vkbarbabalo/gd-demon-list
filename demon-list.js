@@ -1,4 +1,4 @@
-// 1. STARTER DATABASE STRUCTURE WITH PROGRESS & THUMBNAILS
+// 1. DYNAMIC DEMON BASELINE DATA
 const defaultDemonListData = [
   { rank: 1, name: "Bloodbath", id: "10565740", creator: "Riot", verifier: "Vk_barbabalo", points: 100, minProgress: 50, progressPoints: 20, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
   { rank: 2, name: "Cataclysm", id: "3979721", creator: "Ggb0y", verifier: "Vk_barbabalo", points: 75, minProgress: 50, progressPoints: 15, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
@@ -6,7 +6,7 @@ const defaultDemonListData = [
   { rank: 4, name: "Oblivion", id: "114755656", creator: "Defentum", verifier: "Vk_barbabalo", points: 30, minProgress: 50, progressPoints: 5, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
   { rank: 5, name: "Nine circles", id: "4284013", creator: "Zobros", verifier: "Vk_barbabalo", points: 20, minProgress: 50, progressPoints: 2, video: "", thumbnail: "", victors: [{ name: "Swedishvic", video: "https://outplayed.tv" }], progressRecords: [] }
 ];
-// 2. DESIGN FRAMEWORK HOOKS WITH MODAL POPUPS
+// 2. STYLING OVERLAYS AND FLEXIBLE MEDIA SHELLS
 const coreUIStructure = `
     <style>
         body { font-family: sans-serif; background: #0a0a0c; color: #e2e8f0; max-width: 800px; margin: 0 auto; padding: 20px; }
@@ -222,8 +222,8 @@ function saveLevelEdits() {
     let victorsText = document.getElementById('editVictors').value;
     if(victorsText.trim() !== "") {
         victorsText.split('|').forEach(pair => {
-            const parts = pair.split(',');
-            if(parts.length >= 1 && parts[0].trim() !== "") {
+            let parts = pair.split(',');
+            if(parts && parts[0] && parts[0].trim() !== "") {
                 processedVictors.push({ 
                     name: parts[0].trim(), 
                     video: parts[1] ? parts[1].trim() : "" 
@@ -236,11 +236,11 @@ function saveLevelEdits() {
     let progText = document.getElementById('editProgressRecords').value;
     if(progText.trim() !== "") {
         progText.split('|').forEach(pair => {
-            const parts = pair.split(',');
-            if(parts.length >= 2 && parts[0].trim() !== "") {
+            let parts = pair.split(',');
+            if(parts && parts[0] && parts[0].trim() !== "") {
                 processedProg.push({ 
                     name: parts[0].trim(), 
-                    percent: Number(parts[1].trim()) || 50, 
+                    percent: parts[1] ? Number(parts[1].trim()) : 50, 
                     video: parts[2] ? parts[2].trim() : "" 
                 });
             }
@@ -258,7 +258,7 @@ function saveLevelEdits() {
         victors: processedVictors, progressRecords: processedProg
     };
     localStorage.setItem('customGDList', JSON.stringify(dynamicList));
-    alert("Level updated!"); switchTab('demons-section', document.getElementById('btn-demons'));
+    alert("Level updated successfully!"); switchTab('demons-section', document.getElementById('btn-demons'));
 }
 
 window.openProfile = function(name) {
