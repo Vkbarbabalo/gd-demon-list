@@ -1,3 +1,85 @@
+const defaultDemonListData = [
+  {
+    "rank": 1,
+    "name": "Bloodbath",
+    "id": "10565740",
+    "creator": "Riot",
+    "verifier": "Vk_barbabalo",
+    "points": 100,
+    "minProgress": 70,
+    "progressPoints": 10,
+    "video": "https://www.youtube.com/watch?v=Uy92UvhyNl0&t=1s",
+    "thumbnail": "https://cdn.phototourl.com/free/2026-08-04-ae8b0644-8ee5-4c44-8f8d-7d15cbda0bd2.gif",
+    "victors": [],
+    "progressRecords": []
+  },
+  {
+    "rank": 2,
+    "name": "Cataclysm",
+    "id": "3979721",
+    "creator": "Ggb0y",
+    "verifier": "Vk_barbabalo",
+    "points": 75,
+    "minProgress": 64,
+    "progressPoints": 7.5,
+    "video": "https://www.youtube.com/watch?v=dXs_UjKpQUQ&t=3s",
+    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/bsb2oiNPs5FRVeKKC3Fr/image.jpg",
+    "victors": [],
+    "progressRecords": []
+  },
+  {
+    "rank": 3,
+    "name": "Acropolis",
+    "id": "5155022",
+    "creator": "Zobros",
+    "verifier": "Vk_barbabalo",
+    "points": 50,
+    "minProgress": 52,
+    "progressPoints": 5,
+    "video": "",
+    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/fI4RUDUp7hOSp4630VPn/image.jpg",
+    "victors": [
+      {
+        "name": "Swedishvic",
+        "video": "https://www.youtube.com/watch?v=fVBmzkqykKE"
+      }
+    ],
+    "progressRecords": []
+  },
+  {
+    "rank": 4,
+    "name": "Oblivion",
+    "id": "114755656",
+    "creator": "Defentum",
+    "verifier": "Vk_barbabalo",
+    "points": 30,
+    "minProgress": 64,
+    "progressPoints": 3,
+    "video": "https://www.youtube.com/watch?v=2F0VMXlWq4Y",
+    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/G0htqNgyE9VkTsc26Gqu/image.jpg",
+    "victors": [],
+    "progressRecords": []
+  },
+  {
+    "rank": 5,
+    "name": "Nine circles",
+    "id": "4284013",
+    "creator": "Zobros",
+    "verifier": "Vk_barbabalo",
+    "points": 20,
+    "minProgress": 72,
+    "progressPoints": 2,
+    "video": "https://outplayed.tv/media/Q16k5K",
+    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/t20jnknzVe4XF5ZivVqq/image.jpg",
+    "victors": [
+      {
+        "name": "Swedishvic",
+        "video": "https://outplayed.tv/geometry-dash/K4jm60"
+      }
+    ],
+    "progressRecords": []
+  }
+];
 // 1. STARTER DATABASE STRUCTURE WITH PROGRESS RECORD SHELLS
 const defaultDemonListData = [
   { rank: 1, name: "Bloodbath", id: "10565740", creator: "Riot", verifier: "Vk_barbabalo", points: 100, minProgress: 50, progressPoints: 20, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
