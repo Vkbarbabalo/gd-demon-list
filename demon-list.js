@@ -1,4 +1,3 @@
-// 1. YOUR UPDATED EXPORTED LIVE DATA
 const defaultDemonListData = [
   {
     "rank": 1,
@@ -39,12 +38,7 @@ const defaultDemonListData = [
     "progressPoints": 5,
     "video": "",
     "thumbnail": "https://komododecks.com",
-    "victors": [
-      {
-        "name": "Swedishvic",
-        "video": "https://youtube.com"
-      }
-    ],
+    "victors": [{ "name": "Swedishvic", "video": "https://youtube.com" }],
     "progressRecords": []
   },
   {
@@ -72,16 +66,10 @@ const defaultDemonListData = [
     "progressPoints": 2,
     "video": "https://outplayed.tv",
     "thumbnail": "https://komododecks.com",
-    "victors": [
-      {
-        "name": "Swedishvic",
-        "video": "https://outplayed.tv"
-      }
-    ],
+    "victors": [{ "name": "Swedishvic", "video": "https://outplayed.tv" }],
     "progressRecords": []
   }
 ];
-// 2. DESIGN FRAMEWORK WITH SELECTIVE ACCORDION HIDDEN WRAPPERS
 const coreUIStructure = `
     <style>
         body { font-family: sans-serif; background: #0a0a0c; color: #e2e8f0; max-width: 800px; margin: 0 auto; padding: 20px; }
