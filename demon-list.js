@@ -1,3 +1,4 @@
+// 1. YOUR UPDATED EXPORTED LIVE DATA
 const defaultDemonListData = [
   {
     "rank": 1,
@@ -8,8 +9,8 @@ const defaultDemonListData = [
     "points": 100,
     "minProgress": 70,
     "progressPoints": 10,
-    "video": "https://www.youtube.com/watch?v=Uy92UvhyNl0&t=1s",
-    "thumbnail": "https://cdn.phototourl.com/free/2026-08-04-ae8b0644-8ee5-4c44-8f8d-7d15cbda0bd2.gif",
+    "video": "https://youtube.com",
+    "thumbnail": "https://phototourl.com",
     "victors": [],
     "progressRecords": []
   },
@@ -22,8 +23,8 @@ const defaultDemonListData = [
     "points": 75,
     "minProgress": 64,
     "progressPoints": 7.5,
-    "video": "https://www.youtube.com/watch?v=dXs_UjKpQUQ&t=3s",
-    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/bsb2oiNPs5FRVeKKC3Fr/image.jpg",
+    "video": "https://youtube.com",
+    "thumbnail": "https://komododecks.com",
     "victors": [],
     "progressRecords": []
   },
@@ -37,11 +38,11 @@ const defaultDemonListData = [
     "minProgress": 52,
     "progressPoints": 5,
     "video": "",
-    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/fI4RUDUp7hOSp4630VPn/image.jpg",
+    "thumbnail": "https://komododecks.com",
     "victors": [
       {
         "name": "Swedishvic",
-        "video": "https://www.youtube.com/watch?v=fVBmzkqykKE"
+        "video": "https://youtube.com"
       }
     ],
     "progressRecords": []
@@ -55,8 +56,8 @@ const defaultDemonListData = [
     "points": 30,
     "minProgress": 64,
     "progressPoints": 3,
-    "video": "https://www.youtube.com/watch?v=2F0VMXlWq4Y",
-    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/G0htqNgyE9VkTsc26Gqu/image.jpg",
+    "video": "https://youtube.com",
+    "thumbnail": "https://komododecks.com",
     "victors": [],
     "progressRecords": []
   },
@@ -69,12 +70,12 @@ const defaultDemonListData = [
     "points": 20,
     "minProgress": 72,
     "progressPoints": 2,
-    "video": "https://outplayed.tv/media/Q16k5K",
-    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/t20jnknzVe4XF5ZivVqq/image.jpg",
+    "video": "https://outplayed.tv",
+    "thumbnail": "https://komododecks.com",
     "victors": [
       {
         "name": "Swedishvic",
-        "video": "https://outplayed.tv/geometry-dash/K4jm60"
+        "video": "https://outplayed.tv"
       }
     ],
     "progressRecords": []
@@ -316,8 +317,9 @@ function saveLevelEdits() {
     let victorsText = document.getElementById('editVictors').value;
     if(victorsText.trim() !== "") {
         victorsText.split('|').forEach(pair => {
-            if(pair.trim() !== "") {
-                let parts = pair.split('--');
+            let itemStr = pair.trim();
+            if(itemStr !== "") {
+                let parts = itemStr.split('--');
                 let pName = parts[0] ? parts[0].trim() : "";
                 let pVid = parts[1] ? parts[1].trim() : "";
                 if(pName !== "") processedVictors.push({ name: pName, video: pVid });
@@ -329,8 +331,9 @@ function saveLevelEdits() {
     let progText = document.getElementById('editProgressRecords').value;
     if(progText.trim() !== "") {
         progText.split('|').forEach(pair => {
-            if(pair.trim() !== "") {
-                let parts = pair.split('--');
+            let itemStr = pair.trim();
+            if(itemStr !== "") {
+                let parts = itemStr.split('--');
                 let pName = parts[0] ? parts[0].trim() : "";
                 let pPct = parts[1] ? Number(parts[1].trim()) : 50;
                 let pVid = parts[2] ? parts[2].trim() : "";
