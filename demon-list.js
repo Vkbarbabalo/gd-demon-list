@@ -1,75 +1,18 @@
-const defaultDemonListData = [
-  {
-    "rank": 1,
-    "name": "Bloodbath",
-    "id": "10565740",
-    "creator": "Riot",
-    "verifier": "Vk_barbabalo",
-    "points": 100,
-    "minProgress": 70,
-    "progressPoints": 10,
-    "video": "https://youtube.com",
-    "thumbnail": "https://phototourl.com",
-    "victors": [],
-    "progressRecords": []
-  },
-  {
-    "rank": 2,
-    "name": "Cataclysm",
-    "id": "3979721",
-    "creator": "Ggb0y",
-    "verifier": "Vk_barbabalo",
-    "points": 75,
-    "minProgress": 64,
-    "progressPoints": 7.5,
-    "video": "https://youtube.com",
-    "thumbnail": "https://komododecks.com",
-    "victors": [],
-    "progressRecords": []
-  },
-  {
-    "rank": 3,
-    "name": "Acropolis",
-    "id": "5155022",
-    "creator": "Zobros",
-    "verifier": "Vk_barbabalo",
-    "points": 50,
-    "minProgress": 52,
-    "progressPoints": 5,
-    "video": "",
-    "thumbnail": "https://komododecks.com",
-    "victors": [{ "name": "Swedishvic", "video": "https://youtube.com" }],
-    "progressRecords": []
-  },
-  {
-    "rank": 4,
-    "name": "Oblivion",
-    "id": "114755656",
-    "creator": "Defentum",
-    "verifier": "Vk_barbabalo",
-    "points": 30,
-    "minProgress": 64,
-    "progressPoints": 3,
-    "video": "https://youtube.com",
-    "thumbnail": "https://komododecks.com",
-    "victors": [],
-    "progressRecords": []
-  },
-  {
-    "rank": 5,
-    "name": "Nine circles",
-    "id": "4284013",
-    "creator": "Zobros",
-    "verifier": "Vk_barbabalo",
-    "points": 20,
-    "minProgress": 72,
-    "progressPoints": 2,
-    "video": "https://outplayed.tv",
-    "thumbnail": "https://komododecks.com",
-    "victors": [{ "name": "Swedishvic", "video": "https://outplayed.tv" }],
-    "progressRecords": []
-  }
-];
+// 1. DYNAMIC DATA FETCHING INFRASTRUCTURE
+let dynamicList = [];
+let playersDatabase = {};
+
+// Fetches data cleanly from database.json on startup
+fetch('database.json?v=' + Date.now())
+    .then(res => res.json())
+    .then(data => {
+        if (!localStorage.getItem('customGDList')) {
+            localStorage.setItem('customGDList', JSON.stringify(data));
+        }
+        dynamicList = JSON.parse(localStorage.getItem('customGDList'));
+        renderWebsite();
+    }).catch(err => alert("Error reading database.json!"));
+// 2. STYLING OVERLAYS AND ACCORDION WRAPPERS
 const coreUIStructure = `
     <style>
         body { font-family: sans-serif; background: #0a0a0c; color: #e2e8f0; max-width: 800px; margin: 0 auto; padding: 20px; }
@@ -148,7 +91,7 @@ const coreUIStructure = `
             <div class="form-group"><label>Victors (Format: Name -- Link | Name2 -- Link2)</label><textarea id="editVictors"></textarea></div>
             <div class="form-group"><label>Progress (Format: Name -- Percentage -- Link | Name2 -- Percentage2 -- Link2)</label><textarea id="editProgressRecords"></textarea></div>
             <button class="btn-submit" id="btn-save-edit" style="background:#00d2ff;">Save Changes to Level</button>
-            <button onclick="exportDataToLog()" class="btn-submit" style="background:#2ed573; color:#000; margin-top:15px;">💾 Export List Code For Friends</button>
+            <button onclick="downloadBackupFile()" class="btn-submit" style="background:#2ed573; color:#000; margin-top:15px; font-weight:bold;">📥 Download Update File for Friends</button>
             <button id="btn-reset" style="background:transparent; color:#ff4757; border:none; margin-top:15px; cursor:pointer; width:100%;">⚠️ Reset Changes</button>
         </div>
     </div>
@@ -157,17 +100,12 @@ const coreUIStructure = `
 `;
 document.getElementById('list-core-engine').innerHTML = coreUIStructure;
 
-if (!localStorage.getItem('customGDList')) { localStorage.setItem('customGDList', JSON.stringify(defaultDemonListData)); }
-let dynamicList = JSON.parse(localStorage.getItem('customGDList'));
-
 document.getElementById('btn-demons').onclick = function() { switchTab('demons-section', this); };
 document.getElementById('btn-ranking').onclick = function() { switchTab('leaderboard-section', this); };
 document.getElementById('btn-admin').onclick = function() { switchTab('admin-section', this); };
 document.getElementById('btn-submit-level').onclick = function() { addNewLevel(); };
 document.getElementById('btn-save-edit').onclick = function() { saveLevelEdits(); };
 document.getElementById('btn-reset').onclick = function() { resetToDefaultData(); };
-
-let playersDatabase = {};
 
 function switchTab(sectionId, btnElement) {
     document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
@@ -186,6 +124,7 @@ window.toggleLevelRecords = function(levelId) {
 function renderWebsite() {
     const listContainer = document.getElementById('list-container');
     const leaderboardContainer = document.getElementById('leaderboard-container');
+    if (!listContainer) return;
     listContainer.innerHTML = ''; leaderboardContainer.innerHTML = '';
     playersDatabase = {};
     
@@ -195,7 +134,6 @@ function renderWebsite() {
 
     dynamicList.forEach(level => {
         let victorsHTML = ''; let progHTML = '';
-        
         if (level.verifier && level.verifier.trim() !== "") {
             let vName = level.verifier.trim();
             if (!playersDatabase[vName]) playersDatabase[vName] = { points: 0, verifications: [], completions: [], progress: [] };
@@ -226,7 +164,6 @@ function renderWebsite() {
         if (level.thumbnail && level.thumbnail.trim() !== "") {
             mediaHTML = `<img src="${level.thumbnail}" class="thumb-img" alt="level thumbnail">`;
         }
-        
         let watchVideoBtnHTML = '';
         if (level.video && level.video.trim() !== "") {
             watchVideoBtnHTML = `<a href="${level.video}" target="_blank" class="video-link-btn">▶ Watch Verification Proof</a>`;
@@ -234,15 +171,11 @@ function renderWebsite() {
 
         listContainer.innerHTML += `
             <div class="level-card">
-                <div class="level-header">
-                    <div class="rank-name" onclick="toggleLevelRecords(${level.id})">#${level.rank} - ${level.name}</div>
-                    <div class="points-badge">+${level.points} pts</div>
-                </div>
+                <div class="level-header"><div class="rank-name" onclick="toggleLevelRecords(${level.id})">#${level.rank} - ${level.name}</div><div class="points-badge">+${level.points} pts</div></div>
                 <div class="meta"><strong>ID:</strong> ${level.id} | <strong>Creator:</strong> ${level.creator}</div>
                 <div class="meta"><strong>Verifier:</strong> <a onclick="openProfile('${level.verifier}')">${level.verifier}</a></div>
                 <p style="color:#00d2ff; font-size:13px; margin:6px 0 0 0;">💡 Click level name to check victors and progress list</p>
-                ${mediaHTML}
-                ${watchVideoBtnHTML}
+                ${mediaHTML} ${watchVideoBtnHTML}
                 <div id="records-box-${level.id}" class="records-accordion">
                     <div class="victor-list"><h4>Completions (100%):</h4><ul>${victorsHTML}</ul></div>
                     <div class="victor-list" style="border-color:#ffa502;"><h4>Progress (>=${level.minProgress || 50}% = +${level.progressPoints || 0} pts):</h4><ul>${progHTML}</ul></div>
@@ -380,11 +313,12 @@ window.deleteLevel = function(id) {
     if(confirm("Remove?")) { dynamicList = dynamicList.filter(lvl => Number(lvl.id) !== Number(id)); renderWebsite(); }
 };
 
-window.exportDataToLog = function() {
-    let out = "const defaultDemonListData = " + JSON.stringify(dynamicList, null, 2) + ";";
-    console.log(out);
-    alert("COMPLETE WEBSITE CODE COPIED TO SYSTEM LOG! Press F12, look at your console tab, copy the clean text layout from there, and paste it to update everyone permanently!");
+window.downloadBackupFile = function() {
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dynamicList, null, 2));
+    let dlAnchorElem = document.createElement('a');
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", "database.json");
+    dlAnchorElem.click();
 };
 
 function resetToDefaultData() { if(confirm("Reset Everything?")) { localStorage.removeItem('customGDList'); location.reload(); } }
-renderWebsite();
