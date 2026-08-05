@@ -80,14 +80,6 @@ const defaultDemonListData = [
     "progressRecords": []
   }
 ];
-// 1. STARTER DATABASE STRUCTURE WITH PROGRESS RECORD SHELLS
-const defaultDemonListData = [
-  { rank: 1, name: "Bloodbath", id: "10565740", creator: "Riot", verifier: "Vk_barbabalo", points: 100, minProgress: 50, progressPoints: 20, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
-  { rank: 2, name: "Cataclysm", id: "3979721", creator: "Ggb0y", verifier: "Vk_barbabalo", points: 75, minProgress: 50, progressPoints: 15, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
-  { rank: 3, name: "Acropolis", id: "5155022", creator: "Zobros", verifier: "Vk_barbabalo", points: 50, minProgress: 50, progressPoints: 10, video: "", thumbnail: "", victors: [{ name: "Swedishvic", video: "https://youtube.com" }], progressRecords: [] },
-  { rank: 4, name: "Oblivion", id: "114755656", creator: "Defentum", verifier: "Vk_barbabalo", points: 30, minProgress: 50, progressPoints: 5, video: "https://youtube.com", thumbnail: "", victors: [], progressRecords: [] },
-  { rank: 5, name: "Nine circles", id: "4284013", creator: "Zobros", verifier: "Vk_barbabalo", points: 20, minProgress: 50, progressPoints: 2, video: "", thumbnail: "", victors: [{ name: "Swedishvic", video: "https://outplayed.tv" }], progressRecords: [] }
-];
 // 2. DESIGN FRAMEWORK WITH SELECTIVE ACCORDION HIDDEN WRAPPERS
 const coreUIStructure = `
     <style>
