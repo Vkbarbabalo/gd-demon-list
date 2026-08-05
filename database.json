@@ -8,8 +8,8 @@
     "points": 100,
     "minProgress": 70,
     "progressPoints": 10,
-    "video": "https://youtube.com",
-    "thumbnail": "https://phototourl.com",
+    "video": "https://www.youtube.com/watch?v=Uy92UvhyNl0&t=1s",
+    "thumbnail": "https://cdn.phototourl.com/free/2026-08-04-ae8b0644-8ee5-4c44-8f8d-7d15cbda0bd2.gif",
     "victors": [],
     "progressRecords": []
   },
@@ -22,8 +22,8 @@
     "points": 75,
     "minProgress": 64,
     "progressPoints": 7.5,
-    "video": "https://youtube.com",
-    "thumbnail": "https://komododecks.com",
+    "video": "https://www.youtube.com/watch?v=dXs_UjKpQUQ&t=3s",
+    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/bsb2oiNPs5FRVeKKC3Fr/image.jpg",
     "victors": [],
     "progressRecords": []
   },
@@ -37,8 +37,13 @@
     "minProgress": 52,
     "progressPoints": 5,
     "video": "",
-    "thumbnail": "https://komododecks.com",
-    "victors": [{ "name": "Swedishvic", "video": "https://youtube.com" }],
+    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/fI4RUDUp7hOSp4630VPn/image.jpg",
+    "victors": [
+      {
+        "name": "Swedishvic",
+        "video": "https://www.youtube.com/watch?v=fVBmzkqykKE"
+      }
+    ],
     "progressRecords": []
   },
   {
@@ -50,8 +55,8 @@
     "points": 30,
     "minProgress": 64,
     "progressPoints": 3,
-    "video": "https://youtube.com",
-    "thumbnail": "https://komododecks.com",
+    "video": "https://www.youtube.com/watch?v=2F0VMXlWq4Y",
+    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/G0htqNgyE9VkTsc26Gqu/image.jpg",
     "victors": [],
     "progressRecords": []
   },
@@ -64,9 +69,14 @@
     "points": 20,
     "minProgress": 72,
     "progressPoints": 2,
-    "video": "https://outplayed.tv",
-    "thumbnail": "https://komododecks.com",
-    "victors": [{ "name": "Swedishvic", "video": "https://outplayed.tv" }],
+    "video": "https://www.youtube.com/watch?v=Uu2de6OqTHM",
+    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/04/t20jnknzVe4XF5ZivVqq/image.jpg",
+    "victors": [
+      {
+        "name": "Swedishvic",
+        "video": "https://outplayed.tv/geometry-dash/K4jm60"
+      }
+    ],
     "progressRecords": []
   }
 ]
