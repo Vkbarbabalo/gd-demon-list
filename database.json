@@ -52,9 +52,9 @@
     "id": "11402965",
     "creator": "Michigan",
     "verifier": "Vk_barbabalo",
-    "points": 30,
+    "points": 35,
     "minProgress": 65,
-    "progressPoints": 3,
+    "progressPoints": 3.5,
     "video": "https://www.youtube.com/watch?v=TVr1rSONWy8",
     "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/05/rEkS6eFmsnfcwrvM7NWY/image.jpg",
     "victors": [],
@@ -62,6 +62,20 @@
   },
   {
     "rank": 5,
+    "name": "Fairydust",
+    "id": "5310094",
+    "creator": "mkComic",
+    "verifier": "Vk_barbabalo",
+    "points": 30,
+    "minProgress": 73,
+    "progressPoints": 3,
+    "video": "https://www.youtube.com/watch?v=0SJP4YyjHxQ",
+    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/06/3kVTv2IVcGAULD8aCTvl/image.jpg",
+    "victors": [],
+    "progressRecords": []
+  },
+  {
+    "rank": 6,
     "name": "Oblivion",
     "id": "114755656",
     "creator": "Defentum",
@@ -75,7 +89,7 @@
     "progressRecords": []
   },
   {
-    "rank": 6,
+    "rank": 7,
     "name": "Nine Circles",
     "id": "4284013",
     "creator": "Zobros",
@@ -91,6 +105,20 @@
         "video": "https://outplayed.tv/geometry-dash/K4jm60"
       }
     ],
+    "progressRecords": []
+  },
+  {
+    "rank": 8,
+    "name": "Jawbreaker",
+    "id": "6939821",
+    "creator": "ZenthicAlpha",
+    "verifier": "Vk_barbabalo",
+    "points": 15,
+    "minProgress": 70,
+    "progressPoints": 1.5,
+    "video": "https://www.youtube.com/watch?v=e4WN6UtWffU",
+    "thumbnail": "https://plain-weur-prod-public.komododecks.com/202608/06/YXTpleM0pyEk8pH05dRb/image.jpg",
+    "victors": [],
     "progressRecords": []
   }
 ]
